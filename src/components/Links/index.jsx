@@ -1,4 +1,4 @@
-import classes from "./Link.module.css";
+import classes from "src/components/Links/Links.module.css"
 
 const ITEMS = [
   {

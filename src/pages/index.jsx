@@ -3,27 +3,26 @@ import styles from "src/styles/Home.module.css";
 import { Header } from "src/components/Header";
 import { Main } from "src/components/Main";
 import { Footer } from "src/components/Footer";
-import { useCallback, useEffect } from "react";
+import { useCallback, useEffect, useState } from "react";
 
 export default function Home() {
-  const foo = 1;
+  const [count, setCount] = useState(1);
 
-  const handleClick = useCallback(e => {
-    console.log(e.target.href);
-    e.preventDefault();
-    alert(foo);
-  }, [])
+  const handleClick = (e) => {
+    setCount(count => count + 1);
+    setCount(count => count + 1);
+  }
 
   useEffect(() => {
     // マウント時の処理
-    console.log("マウント時");
     document.body.style.backgroundColor = "lightblue";
     // アンマウント時の処理
     return () => {
-      console.log("アンマウント時");
       document.body.style.backgroundColor = "";
     }
   }, [])
+
+  console.log(count);
 
   return (
     <div className={styles.container}>
@@ -32,8 +31,10 @@ export default function Home() {
       </Head>
 
       <Header />
-      <button onClick={handleClick}>ボタン</button>
-      <a href="/about" onClick={handleClick}>ボタン２</a>
+      <div className={styles['counter-wrap']}>
+        <h1>{ count }</h1>
+        <button onClick={handleClick}>ボタン</button>
+      </div>
       <Main page="index"/>
 
       <Footer />

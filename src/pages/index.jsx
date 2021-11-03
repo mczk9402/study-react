@@ -7,6 +7,8 @@ import { useCallback, useEffect, useState } from "react";
 
 export default function Home() {
   const [count, setCount] = useState(1);
+  const [text, setText] = useState("");
+  const [isShow, setIsShow] = useState(true);
 
   const handleClick = useCallback(() => {
     if (count < 10) {
@@ -21,9 +23,21 @@ export default function Home() {
     return () => {
       document.body.style.backgroundColor = "";
     }
-  }, [count])
+  }, [count]);
 
-  // console.log(count);
+  const handleChange = useCallback(e => {
+    if (e.target.value.length > 5) {
+      alert("制限")
+      return;
+    }
+    setText(e.target.value.trim());
+  }, []);
+
+  const handleDisplay = useCallback(() => {
+    setIsShow(isShow => !isShow);
+  }, []);
+
+  console.log(text);
 
   return (
     <div className={styles.container}>
@@ -33,7 +47,14 @@ export default function Home() {
 
       <Header />
       <div className={styles['counter-wrap']}>
-        <h1>{ count }</h1>
+        {isShow ? <h1>{count}</h1> : null}
+        <button
+          onClick={handleDisplay}
+        >{isShow ? "非表示" : "表示"}</button>
+        <input
+          type="text"
+          value={text}
+          onChange={handleChange}/>
         <button onClick={handleClick}>ボタン</button>
       </div>
       <Main page="index"/>

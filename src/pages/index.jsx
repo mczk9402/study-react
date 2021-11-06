@@ -6,7 +6,7 @@ import { Footer } from "src/components/Footer";
 
 export default function Home(props) {
   console.log(props);
-  const { count, isShow, handleClick, handleDisplay, text, array, handleChange, handleAdd } = props;
+  const { doubleCount, isShow, handleClick, handleDisplay, text, array, handleChange, handleAdd } = props;
 
   return (
     <div className={styles.container}>
@@ -16,7 +16,7 @@ export default function Home(props) {
 
       <Header />
       <div className={styles["counter-wrap"]}>
-        {isShow ? <h1>{count}</h1> : null}
+        {isShow ? <h1>{doubleCount}</h1> : null}
         <button onClick={handleClick}>ボタン</button>
         <button onClick={handleDisplay}>{isShow ? "非表示" : "表示"}</button>
 

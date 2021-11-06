@@ -4,7 +4,7 @@ import { Header } from "src/components/Header";
 import { Main } from "src/components/Main";
 import { Footer } from "src/components/Footer";
 
-export default function About({ count, isShow, handleClick, handleDisplay, text, array, handleChange, handleAdd }) {
+export default function About({ doubleCount, isShow, handleClick, handleDisplay, text, array, handleChange, handleAdd }) {
   return (
     <div className={styles.container}>
       <Head>
@@ -13,7 +13,7 @@ export default function About({ count, isShow, handleClick, handleDisplay, text,
 
       <Header />
       <div className={styles["counter-wrap"]}>
-        {isShow ? <h1>{count}</h1> : null}
+        {isShow ? <h1>{doubleCount}</h1> : null}
         <button onClick={handleClick}>ボタン</button>
         <button onClick={handleDisplay}>{isShow ? "非表示" : "表示"}</button>
 

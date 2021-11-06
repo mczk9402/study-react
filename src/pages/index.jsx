@@ -5,7 +5,6 @@ import { Main } from "src/components/Main";
 import { Footer } from "src/components/Footer";
 
 export default function Home(props) {
-  console.log(props);
   const { doubleCount, isShow, handleClick, handleDisplay, text, array, handleChange, handleAdd } = props;
 
   return (

@@ -3,54 +3,14 @@ import styles from "src/styles/Home.module.css";
 import { Header } from "src/components/Header";
 import { Main } from "src/components/Main";
 import { Footer } from "src/components/Footer";
-import { useCallback, useEffect, useState } from "react";
+import { useBgLightBlue } from "src/hooks/useBgLightBlue";
+import { useCounter } from "src/hooks/useCounter";
+import { useInputArray } from "src/hooks/useInputArray";
 
 export default function Home() {
-  const [count, setCount] = useState(1);
-  const [text, setText] = useState("");
-  const [isShow, setIsShow] = useState(true);
-  const [array, setArray] = useState([]);
-
-  const handleClick = useCallback(() => {
-    if (count < 10) {
-      setCount((prevCount) => preevCount + 1);
-    }
-  }, [count]);
-
-  useEffect(() => {
-    // マウント時の処理
-    document.body.style.backgroundColor = "lightblue";
-    // アンマウント時の処理
-    return () => {
-      document.body.style.backgroundColor = "";
-    };
-  }, [count]);
-
-  const handleChange = useCallback((e) => {
-    if (e.target.value.length > 5) {
-      alert("制限");
-      return;
-    }
-    setText(e.target.value.trim());
-  }, []);
-
-  const handleDisplay = useCallback(() => {
-    setIsShow((prevIsShow) => !prevIsShow);
-  }, []);
-
-  const handleAdd = useCallback(() => {
-    setArray((prevArray) => {
-      if (prevArray.some((item) => item === text)) {
-        alert("同じ要素がすでに存在しています");
-        return prevArray;
-      }
-
-      // const newArray = [...prevArray, text];
-      // return newArray;
-
-      return [...prevArray, text]; //こちらでも動く
-    });
-  }, [text]);
+  const { count, isShow, handleClick, handleDisplay } = useCounter();
+  const { text, array, handleChange, handleAdd } = useInputArray();
+  useBgLightBlue();
 
   return (
     <div className={styles.container}>
@@ -61,9 +21,10 @@ export default function Home() {
       <Header />
       <div className={styles["counter-wrap"]}>
         {isShow ? <h1>{count}</h1> : null}
-        <button onClick={handleDisplay}>{isShow ? "非表示" : "表示"}</button>
-        <input type="text" value={text} onChange={handleChange} />
         <button onClick={handleClick}>ボタン</button>
+        <button onClick={handleDisplay}>{isShow ? "非表示" : "表示"}</button>
+
+        <input type="text" value={text} onChange={handleChange} />
         <button onClick={handleAdd}>追加</button>
         <ul>
           {array.map((item) => {

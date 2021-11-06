@@ -12,7 +12,7 @@ export default function Home() {
 
   const handleClick = useCallback(() => {
     if (count < 10) {
-      setCount(count => count + 1);
+      setCount((prevCount) => preevCount + 1);
     }
   }, [count]);
 
@@ -22,7 +22,7 @@ export default function Home() {
     // アンマウント時の処理
     return () => {
       document.body.style.backgroundColor = "";
-    }
+    };
   }, [count]);
 
   const handleChange = useCallback(e => {
@@ -34,7 +34,7 @@ export default function Home() {
   }, []);
 
   const handleDisplay = useCallback(() => {
-    setIsShow(isShow => !isShow);
+    setIsShow((prevIsShow) => !prevIsShow);
   }, []);
 
   console.log(text);

@@ -1,26 +1,50 @@
-import styles from 'src/styles/Home.module.css';
-import { useCallback, useEffect, useState } from 'react';
+import { useCallback, useEffect, useReducer, useState } from 'react';
+
+const initialState = {
+  data: [],
+  loading: true,
+  error: null,
+};
+
+// useReducerVer
+// 現在のstateと、新しいactionを受け取って新しいstateを返す
+// typeによって返す処理を事前に決めておく　元の値を使って差分を追加する
+const reducer = (state, action) => {
+  switch (action.type) {
+    case 'end':
+      console.log(action);
+      // 元の変数を代入する
+      return {
+        ...state,
+        loading: false,
+        data: action.data,
+      };
+    case 'error':
+      console.log(action);
+      return {
+        ...state,
+        loading: false,
+        error: action.error,
+      };
+    default:
+      return new Error('no such action!!');
+  }
+};
 
 export const Posts = () => {
-  const [posts, setPosts] = useState([]);
-  const [loading, setLoding] = useState(true);
-  const [error, setError] = useState(null);
+  const [state, dispatch] = useReducer(reducer, initialState);
 
   const getPosts = useCallback(async () => {
     try {
       // APIのたたき先　エンドポイント
-      const res = await fetch('https://jsonplaceholder.typicode.com/posts1');
+      const res = await fetch('https://jsonplaceholder.typicode.com/posts');
       if (!res.ok) {
         throw new Error('エラーが発生したため、データの取得に失敗しました');
       }
-
       const json = await res.json();
-      setPosts(json);
+      dispatch({ type: 'end', data: json });
     } catch (error) {
-      setError(error);
-      console.log(error);
-    } finally {
-      setLoding(false);
+      dispatch({ type: 'error', error });
     }
   }, []);
 
@@ -28,26 +52,26 @@ export const Posts = () => {
     getPosts();
   }, [getPosts]);
 
+  console.log('foo');
+
   // そもそもDOM別に出し分ける
-  if (loading) {
+  if (state.loading) {
     return <div className={'loading'}>ローディング中</div>;
   }
 
-  if (error) {
-    return <div className={'error'}>{error.message}</div>;
+  if (state.error) {
+    return <div className={'error'}>{state.error.message}</div>;
   }
 
-  if (posts.length === 0) {
+  if (state.data.length === 0) {
     return <div className="empty">データは空です</div>;
   }
 
   return (
-    <div className={styles.container}>
-      <ol>
-        {posts.map((post, index) => (
-          <li key={index}>{post.title}</li>
-        ))}
-      </ol>
-    </div>
+    <ol>
+      {state.data.map((post, index) => (
+        <li key={index}>{post.title}</li>
+      ))}
+    </ol>
   );
 };

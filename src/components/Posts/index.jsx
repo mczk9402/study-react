@@ -1,4 +1,3 @@
-import Head from 'next/head';
 import styles from 'src/styles/Home.module.css';
 import { useCallback, useEffect, useState } from 'react';
 
